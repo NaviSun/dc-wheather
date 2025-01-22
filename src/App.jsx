@@ -1,4 +1,4 @@
-
+import React from 'react';
 import Wheather from './components/wheather/Weather'
 import { useEffect, useRef, useState } from 'react'
 import clear_icon from "./assets/icon/clear.png"
@@ -62,9 +62,9 @@ const App = () => {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&lang=ru&appid=${import.meta.env.VITE_WEATHER_TOKEN}`
       const response = await fetch(url)
       const data = await response.json();
-      if (data.cod == "404"){
+      if (data.cod == "404") {
         return (
-          setWeatherData ({
+          setWeatherData({
             message: true,
           })
         )
@@ -108,7 +108,7 @@ const App = () => {
             description: response.data.weather[0].description
           })
         }
-      } 
+      }
     } catch (error) {
       setWeatherData(false)
       console.error('Ошибка получения данных', error)
@@ -123,13 +123,13 @@ const App = () => {
   //Запуск приложения
   useEffect(() => {
 
-      getWeather()
+    getWeather()
 
   }, [isGeolocationAvailable, isGeolocationEnabled, coords])
 
   // Загружаем города и настройки из localStorage
   useEffect(() => {
-  
+
     const data = window.localStorage.getItem("citys")
     if (data) {
       setCitys(JSON.parse(data))
@@ -193,42 +193,50 @@ const App = () => {
     setSunrise(current => !current);
     window.localStorage.setItem("sunrise", JSON.stringify(!sunrise))
   }
+// Поиск по кнопке enter
+  const enterSearch = (e) => {
+    if (e.keyCode === 13) {
+      search(inputRef.current.value)
+    }
+  }
+  
   return (
     <div className="container flex flex-col h-screen bg-gradient-to-b from-blue to-dark-blue text-slate-50">
-        <Header citys={citys} search={search} />
-        <SearchBlock 
+      <Header citys={citys} search={search} />
+      <SearchBlock
         inputRef={inputRef}
         drawerHandler={drawerHandler}
         search={search}
         saveCity={saveCity}
-        />
-        {!weatherData ? 
-        (<div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>Геолокация не доступна, Введите в поиск нужный город </div>) 
+        enterSearch={enterSearch}
+      />
+      {!weatherData ?
+        (<div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>Геолокация не доступна, Введите в поиск нужный город </div>)
         :
-       ( <Wheather 
-          weatherData={weatherData} 
+        (<Wheather
+          weatherData={weatherData}
           humidity={humidity}
           wind={wind}
           feels={feels}
           sunrise={sunrise}
-        />      
-      )}
-        <Drawer
-          openMoadl={openMoadl}
-          drawerHandler={drawerHandler}
-          citys={citys}
-          search={search}
-          deleteCity={deleteCity}
-          wind={wind}
-          handleChangeWind={handleChangeWind}
-          handleChangeHumidity={handleChangeHumidity}
-          humidity={humidity}
-          feels={feels}
-          sunrise={sunrise}
-          handleChangeFeels={handleChangeFeels}
-          handleChangeSunrise={handleChangeSunrise}
-          />
-        <Footer />
+        />
+        )}
+      <Drawer
+        openMoadl={openMoadl}
+        drawerHandler={drawerHandler}
+        citys={citys}
+        search={search}
+        deleteCity={deleteCity}
+        wind={wind}
+        handleChangeWind={handleChangeWind}
+        handleChangeHumidity={handleChangeHumidity}
+        humidity={humidity}
+        feels={feels}
+        sunrise={sunrise}
+        handleChangeFeels={handleChangeFeels}
+        handleChangeSunrise={handleChangeSunrise}
+      />
+      <Footer />
     </div>
   )
 }
