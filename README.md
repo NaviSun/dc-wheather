@@ -1,4 +1,7 @@
 Приложение погоды на VITE + React + Tailwind
+
+[DEMO](https://navisun.github.io/dc-wheather/) Версия
+
 Опирается на openweather api
 Использует Геолокацию google
 

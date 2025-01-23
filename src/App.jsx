@@ -24,6 +24,7 @@ const App = () => {
   const [feels, setFeels] = useState(false)
   const [sunrise, setSunrise] = useState(false)
 
+  // Объект иконок для сопоставления на ответ openweather
   const allIcons = {
     "01d": clear_icon,
     "01n": clear_icon,
@@ -40,7 +41,7 @@ const App = () => {
     "13d": snow_icon,
     "13n": snow_icon,
   }
-  //Геолокация
+  // Геолокация
   const {
     coords,
     isGeolocationAvailable,
@@ -53,7 +54,7 @@ const App = () => {
     watchLocationPermissionChange: true,
   });
 
-  //Поиск погоды по городам
+  //Поиск погоды по городам методом fetch
   const search = async (city) => {
     if (city === '') {
       return
@@ -88,6 +89,7 @@ const App = () => {
       console.error('Ошибка получения данных', error)
     }
   }
+
   //Погода по геолакации
   const getWeather = async () => {
     try {
@@ -114,18 +116,20 @@ const App = () => {
       console.error('Ошибка получения данных', error)
     }
   }
-  //Сораняем города в localStorage
-  useEffect(() => {
-    if (citys.length > 0) {
-      window.localStorage.setItem('citys', JSON.stringify(citys))
-    }
-  }, [citys])
+
   //Запуск приложения
   useEffect(() => {
 
     getWeather()
 
   }, [isGeolocationAvailable, isGeolocationEnabled, coords])
+
+  //Сораняем города в localStorage
+  useEffect(() => {
+    if (citys.length > 0) {
+      window.localStorage.setItem('citys', JSON.stringify(citys))
+    }
+  }, [citys])
 
   // Загружаем города и настройки из localStorage
   useEffect(() => {
@@ -156,9 +160,9 @@ const App = () => {
 
   //Управление Drawer меню
   const drawerHandler = () => {
-    setOpenModal(!openMoadl)
+    setOpenModal((current) => !current)
   }
-  // Сохранить город
+  // Сохранить город в список
   const saveCity = (city) => {
     if (!city) {
       return
@@ -167,77 +171,85 @@ const App = () => {
       setCitys(prevCity => [...prevCity, city.toLowerCase()])
     }
   }
-  // Удалить город
+  // Удалить город из списка
   const deleteCity = (city) => {
     const arr = citys.filter((element) => element !== city)
     window.localStorage.setItem('citys', JSON.stringify(arr))
     setCitys(arr)
   }
-  // Настройка ветра
+  // Настройка отображения ветра
   const handleChangeWind = () => {
     setWind(current => !current);
     window.localStorage.setItem("wind", JSON.stringify(!wind))
   }
-  // Настрока влажности
+  // Настрока отображения влажности
   const handleChangeHumidity = () => {
     setHumidity(current => !current);
     window.localStorage.setItem("humidity", JSON.stringify(!humidity))
   }
-
+  // Настройка отображения температуры
   const handleChangeFeels = () => {
     setFeels(current => !current);
     window.localStorage.setItem("feels", JSON.stringify(!feels))
   }
-
+  // Настройка отображения врем восхода
   const handleChangeSunrise = () => {
     setSunrise(current => !current);
     window.localStorage.setItem("sunrise", JSON.stringify(!sunrise))
   }
-// Поиск по кнопке enter
+
+  // Поиск по нажатию кнопки enter
   const enterSearch = (e) => {
     if (e.keyCode === 13) {
       search(inputRef.current.value)
     }
   }
-  
+
   return (
-    <div className="container flex flex-col h-screen bg-gradient-to-b from-blue to-dark-blue text-slate-50">
-      <Header citys={citys} search={search} />
-      <SearchBlock
-        inputRef={inputRef}
-        drawerHandler={drawerHandler}
-        search={search}
-        saveCity={saveCity}
-        enterSearch={enterSearch}
-      />
-      {!weatherData ?
-        (<div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>Геолокация не доступна, Введите в поиск нужный город </div>)
-        :
-        (<Wheather
+    <>
+      <div className="container max-w-6xl flex flex-col h-screen  text-slate-50 px-5 pt-5">
+        <Header />
+        <SearchBlock
+          inputRef={inputRef}
+          drawerHandler={drawerHandler}
+          search={search}
+          saveCity={saveCity}
+          enterSearch={enterSearch}
+        />
+        { !weatherData ? (
+           <div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>
+              Геолокация не доступна, Введите в поиск нужный город
+           </div>
+           ) : (
+        <Wheather
           weatherData={weatherData}
           humidity={humidity}
           wind={wind}
           feels={feels}
           sunrise={sunrise}
+          citys={citys}
+          search={search}
         />
-        )}
-      <Drawer
-        openMoadl={openMoadl}
-        drawerHandler={drawerHandler}
-        citys={citys}
-        search={search}
-        deleteCity={deleteCity}
-        wind={wind}
-        handleChangeWind={handleChangeWind}
-        handleChangeHumidity={handleChangeHumidity}
-        humidity={humidity}
-        feels={feels}
-        sunrise={sunrise}
-        handleChangeFeels={handleChangeFeels}
-        handleChangeSunrise={handleChangeSunrise}
-      />
+          )}
+        <Drawer
+          openMoadl={openMoadl}
+          drawerHandler={drawerHandler}
+          citys={citys}
+          search={search}
+          deleteCity={deleteCity}
+          wind={wind}
+          handleChangeWind={handleChangeWind}
+          handleChangeHumidity={handleChangeHumidity}
+          humidity={humidity}
+          feels={feels}
+          sunrise={sunrise}
+          handleChangeFeels={handleChangeFeels}
+          handleChangeSunrise={handleChangeSunrise}
+        />
+      </div>
       <Footer />
-    </div>
+
+    </>
   )
 }
 

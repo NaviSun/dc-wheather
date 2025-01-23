@@ -1,22 +1,16 @@
+import { Cloud } from "lucide-react"
 
-
-const Header = ({ citys, search }) => {
+const Header = () => {
 
     return (
         <header>
-            <div className="p-5">
-                {citys && citys.length > 0 && citys !== undefined ?
-                    (<ul className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 justify-center items-center gap-1 text-slate-50 text-xl md:text-2xl ">
-                        {citys.map((city, index) => (
-                            <li className="inline-block text-center" key={index}>
-                                <a className="cursor-pointer hover:underline" onClick={() => search(city)}>{city[0].toUpperCase() + city.slice(1, city.length)}</a>
-                            </li>
-                        ))
-                        }
-                    </ul>) : (<><div className="flex justify-center items-center text-xl"> Нет сохраненных городов</div></>)}
-
-
-
+            <div className="pb-5 border-b flex justify-between sm:p-5 sm:justify-around text-6xl  bold items-center">
+               <div className="bg-gradient-to-b from-red-50 rounded-full p-5 border text-red-600">
+               <Cloud size={90} />
+               </div>
+               <div>
+                Погода
+               </div>
             </div>
         </header>
     )
