@@ -12,6 +12,7 @@ import Drawer from './components/Drawer'
 import Header from './components/Header'
 import SearchBlock from './components/SearchBlock'
 import Footer from './components/Footer'
+import Sidebar from "./components/Sidebar"
 
 const App = () => {
 
@@ -216,6 +217,8 @@ const App = () => {
           saveCity={saveCity}
           enterSearch={enterSearch}
         />
+        <div className="container flex md:flex-row mt-10">
+        <Sidebar citys={citys} search={search} />
         {!weatherData ? (
           <div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>
             Геолокация не доступна, Введите в поиск нужный город
@@ -231,6 +234,7 @@ const App = () => {
             search={search}
           />
         )}
+        </div>
         <Drawer
           openMoadl={openMoadl}
           drawerHandler={drawerHandler}

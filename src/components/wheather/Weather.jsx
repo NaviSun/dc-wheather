@@ -1,6 +1,5 @@
 import humidity_icon from "../../assets/icon/humidity.png"
 import wind_icon from "../../assets/icon/wind.png"
-import Sidebar from "../Sidebar"
 
 const Weather = ({
   weatherData,
@@ -8,18 +7,16 @@ const Weather = ({
   wind,
   feels,
   sunrise,
-  citys,
-  search
 }) => {
 
 
 
   return (
 
-    <div className="container flex md:flex-row mt-10">
-      <Sidebar citys={citys} search={search} />
+    
+    <>
       {weatherData && weatherData.message ? (
-        <div className='mt-40 flex justify-center text-center align-middle text-3xl text-slate-50'>
+        <div className='mt-40 w-3/4 flex justify-center text-center align-middle text-3xl text-slate-50'>
           Город не найден
         </div>
       ) : (
@@ -49,7 +46,7 @@ const Weather = ({
             </div>
           </div>
         </div>)}
-    </div>
+    </>
   )
 }
 
