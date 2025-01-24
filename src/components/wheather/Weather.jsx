@@ -16,7 +16,7 @@ const Weather = ({
 
   return (
 
-    <div className="container flex md:flex-row mt-10  mb-auto">
+    <div className="container flex md:flex-row mt-10">
       <Sidebar citys={citys} search={search} />
       {weatherData && weatherData.message ? (
         <div className='mt-40 flex justify-center text-center align-middle text-3xl text-slate-50'>
@@ -32,7 +32,7 @@ const Weather = ({
             <p className={sunrise ? "mt-2" : 'hidden'}>Рассвет в: {weatherData.sunrise}</p>
             <p className='text-4xl mt-7'>{weatherData.location}</p>
           </div>
-          <div className="flex gap-9 justify-center min-h-52 p-7">
+          <div className="flex gap-9 justify-center p-7">
             <div className={humidity ? 'flex flex-col items-center' : "hidden"}>
               <img className='w-10 block' src={humidity_icon} alt="Влажносит" />
               <div className='flex flex-col items-center mt-4'>

@@ -206,8 +206,8 @@ const App = () => {
   }
 
   return (
-    <>
-      <div className="container max-w-6xl flex flex-col h-screen  text-slate-50 px-5 pt-5">
+    <div className='h-screen flex flex-col'>
+      <div className="container max-w-6xl flex-grow text-slate-50 px-5 pt-5">
         <Header />
         <SearchBlock
           inputRef={inputRef}
@@ -216,21 +216,21 @@ const App = () => {
           saveCity={saveCity}
           enterSearch={enterSearch}
         />
-        { !weatherData ? (
-           <div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>
-              Геолокация не доступна, Введите в поиск нужный город
-           </div>
-           ) : (
-        <Wheather
-          weatherData={weatherData}
-          humidity={humidity}
-          wind={wind}
-          feels={feels}
-          sunrise={sunrise}
-          citys={citys}
-          search={search}
-        />
-          )}
+        {!weatherData ? (
+          <div className='container  flex justify-center mb-auto mt-40 align-middle text-center text-3xl text-slate-50 '>
+            Геолокация не доступна, Введите в поиск нужный город
+          </div>
+        ) : (
+          <Wheather
+            weatherData={weatherData}
+            humidity={humidity}
+            wind={wind}
+            feels={feels}
+            sunrise={sunrise}
+            citys={citys}
+            search={search}
+          />
+        )}
         <Drawer
           openMoadl={openMoadl}
           drawerHandler={drawerHandler}
@@ -248,8 +248,7 @@ const App = () => {
         />
       </div>
       <Footer />
-
-    </>
+    </div>
   )
 }
 
