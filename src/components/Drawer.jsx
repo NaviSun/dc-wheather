@@ -2,29 +2,29 @@ import { SquareX } from 'lucide-react';
 import { useState } from 'react';
 import { Building2 } from 'lucide-react'
 
-const Drawer = ({ 
+const Drawer = ({
     openMoadl,
-    drawerHandler, 
-    citys, 
-    search, 
-    deleteCity, 
-    wind, 
-    handleChangeWind, 
-    handleChangeHumidity, 
+    drawerHandler,
+    citys,
+    search,
+    deleteCity,
+    wind,
+    handleChangeWind,
+    handleChangeHumidity,
     humidity,
     feels,
     sunrise,
     handleChangeFeels,
     handleChangeSunrise
-     
-    }) => {
-        const [list, setList] = useState("");
+
+}) => {
+    const [list, setList] = useState("");
 
 
     return (
         <div
-            className={`fixed top-0 right-0 w-96 h-full bg-gradient-to-b from-blue rounded-l-2xl border to-dark-blue shadow-lg
-        transition-transform transform ${openMoadl ? "translate-x-0" :
+            className={`fixed top-0 right-0 w-96 h-full bg-gradient-to-b from-sky-700 to-sky-300 rounded-l-2xl border  shadow-lg
+        transition-transform transform ${openMoadl ? "" :
                     "translate-x-full"}`}
         >
             <div className="p-4 text-slate-50">
@@ -44,7 +44,8 @@ const Drawer = ({
                             return city
                         } else if (city.toLowerCase().includes(list.toLowerCase())) {
                             return city
-                        }}).map((city, index) => (
+                        }
+                    }).map((city, index) => (
                         <li key={index} className='flex gap-2'>
                             <Building2 />
                             <a className="flex-1 text-xl cursor-pointer hover:underline" onClick={() => search(city)}>
